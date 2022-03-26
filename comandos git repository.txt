@@ -1,0 +1,10 @@
+Clonar repositório: git clone https://github.com/dione-is/AEP_5s
+
+1 - Realizar o PULL toda vez que for trabalhar no projeto, para que não seja feita mudança em dados antigos.
+Comando: git pull origin main
+
+2 - Ao fim da edição dos arquivos, adicione ao repositório, fazendo um ADD, commit e PUSH.
+Add: git add.
+Status: git status
+Commit: git commit -m "texto com informações"
+Push: git push origin main
