@@ -1,64 +1,138 @@
--- Geração de Modelo físico
--- Sql ANSI 2003 - brModelo.
+----------------------------------------------------------------------------------------------------
+-- CRIANDO PESSOAS
+INSERT INTO PESSOA (ID_PESSOA, TELEFONE, EMAIL, NOME)
+            VALUES (1, '44 90000-0000', 'danielbastos@email.com', 'Daniel Bastos');
+INSERT INTO PESSOA (ID_PESSOA, TELEFONE, EMAIL, NOME)
+            VALUES (2, '	44 90000-0000', 'dionesantos@email.com', 'Dione Santos');
+INSERT INTO PESSOA (ID_PESSOA, TELEFONE, EMAIL, NOME)
+            VALUES (3, '	44 90000-0000', 'guilhermekochepki@email.com', 'Guilherme Kochepki');
+INSERT INTO PESSOA (ID_PESSOA, TELEFONE, EMAIL, NOME)
+            VALUES (4, '	44 90000-0000', 'igorpollotto@email.com', 'Igor Pollotto');
+INSERT INTO PESSOA (ID_PESSOA, TELEFONE, EMAIL, NOME)
+            VALUES (5, '44 3000-0000', 'unicesumar@unicesumar.com', 'Unicesumar Entregas');
+
+SELECT * FROM PESSOA P INNER JOIN PESSOA_FISICA PF ON PF.ID_PESSOA = P.ID_PESSOA;
+SELECT * FROM PESSOA P INNER JOIN PESSOA_JURIDICA PJ ON PJ.ID_PESSOA = P.ID_PESSOA;
+
+SELECT * FROM PESSOA ORDER BY ID_PESSOA;
+
+----------------------------------------------------------------------------------------------------
+-- CRIANDO VEICULO E ENTREGADOR
+
+INSERT INTO VEICULO (ID_VEICULO, PLACA, ALIMENTICIO, MODELO, CAPACIDADE_CARGA, TIPO_VEICULO)
+            VALUES  (1, 'ABC-123', 0, '160 CC', 80, 'MOTO');
+INSERT INTO ENTREGADOR (ID_ENTREGADOR, CONTA_BANCARIA, ID_PESSOA, ID_VEICULO)
+            VALUES     (1, 'NEW_BANCO 00000 00/00', 4, 1);
+            
+SELECT * FROM ENTREGADOR E INNER JOIN VEICULO V ON V.ID_VEICULO = E.ID_VEICULO INNER JOIN PESSOA P ON P.ID_PESSOA = E.ID_PESSOA;
 
 
+CREATE TABLE VEICULO (
+                ID_VEICULO NUMBER NOT NULL,
+                PLACA VARCHAR2(10) NOT NULL,
+                ALIMENTICIO NUMBER NOT NULL,
+                MODELO VARCHAR2(20) NOT NULL,
+                CAPACIDADE_CARGA NUMBER NOT NULL,
+                TIPO_VEICULO VARCHAR2(20) NOT NULL,
+                CONSTRAINT ID_VEICULO PRIMARY KEY (ID_VEICULO)
+);
 
-CREATE TABLE entregador+veiculo (
-veiculo Texto(1),
-conta_bancaria Texto(1),
-id_entregador Texto(1),
-modelo Texto(1),
-id_veiculo Texto(1),
-placa Texto(1),
-alimenticio Texto(1),
-capacidade_carga Texto(1),
-codigo_pedido Texto(1),
-PRIMARY KEY(id_entregador,id_veiculo)
-)
 
-CREATE TABLE pessoa (
-id_pessoa Texto(1) PRIMARY KEY,
-nome Texto(1),
-email Texto(1),
-telefone Texto(1),
-codigo_pedido Texto(1),
-id_endereco Texto(1)
-)
+CREATE TABLE PESSOA (
+                ID_PESSOA NUMBER NOT NULL,
+                TELEFONE VARCHAR2(20) NOT NULL,
+                EMAIL VARCHAR2(80) NOT NULL,
+                NOME VARCHAR2(100) NOT NULL,
+                CONSTRAINT ID_PESSOA PRIMARY KEY (ID_PESSOA)
+);
 
-CREATE TABLE pedido (
-codigo_pedido Texto(1) PRIMARY KEY,
-declaracao_conteudo Texto(1),
-status Texto(1),
-destinatario_nome Texto(1),
-horario_entrega Texto(1),
-horario_coleta Texto(1),
-destinatario_telefone Texto(1),
-forma_pagamento Texto(1),
-veiculo Texto(1),
-pagamento Texto(1),
-preco Texto(1)
-)
 
-CREATE TABLE endereco (
-remetente Texto(1),
-destinatario Texto(1),
-id_endereco Texto(1) PRIMARY KEY
-)
+CREATE TABLE ENTREGADOR (
+                ID_ENTREGADOR NUMBER NOT NULL,
+                CONTA_BANCARIA VARCHAR2(100) NOT NULL,
+                ID_PESSOA NUMBER NOT NULL,
+                ID_VEICULO NUMBER NOT NULL,
+                CONSTRAINT ID_ENTREGADOR PRIMARY KEY (ID_ENTREGADOR)
+);
 
-CREATE TABLE pessoafisica (
-id_fisica Texto(1) PRIMARY KEY,
-cpf Texto(1),
-id_pessoa Texto(1),
-FOREIGN KEY(id_pessoa) REFERENCES pessoa (id_pessoa)
-)
 
-CREATE TABLE pessoajuridica (
-id_juridica Texto(1) PRIMARY KEY,
-cnpj Texto(1),
-id_pessoa Texto(1),
-FOREIGN KEY(id_pessoa) REFERENCES pessoa (id_pessoa)
-)
+CREATE TABLE ENDERECO (
+                ID_ENDERECO NUMBER NOT NULL,
+                BAIRRO VARCHAR2(150) NOT NULL,
+                LOGRADOURO VARCHAR2(150) NOT NULL,
+                CEP VARCHAR2(10) NOT NULL,
+                CIDADE VARCHAR2(20) NOT NULL,
+                ESTADO VARCHAR2(30) NOT NULL,
+                ID_PESSOA NUMBER NOT NULL,
+                CONSTRAINT ID_ENDERECO PRIMARY KEY (ID_ENDERECO)
+);
 
-ALTER TABLE entregador+veiculo ADD FOREIGN KEY(codigo_pedido) REFERENCES pedido (codigo_pedido)
-ALTER TABLE pessoa ADD FOREIGN KEY(codigo_pedido) REFERENCES pedido (codigo_pedido)
-ALTER TABLE pessoa ADD FOREIGN KEY(id_endereco) REFERENCES endereco (id_endereco)
+
+CREATE TABLE PESSOA_FISICA (
+                ID_PFISICA NUMBER NOT NULL,
+                CPF VARCHAR2(11) NOT NULL,
+                ID_PESSOA NUMBER NOT NULL,
+                CONSTRAINT ID_PFISICA PRIMARY KEY (ID_PFISICA)
+);
+
+
+CREATE TABLE PESSOA_JURIDICA (
+                ID_PJURIDICA NUMBER NOT NULL,
+                CNPJ VARCHAR2(14) NOT NULL,
+                ID_PESSOA NUMBER NOT NULL,
+                CONSTRAINT ID_PJURIDICA PRIMARY KEY (ID_PJURIDICA)
+);
+
+
+CREATE TABLE PEDIDO (
+                CODIGO_PEDIDO NUMBER NOT NULL,
+                DECLARACAO_CONTEUDO VARCHAR2(200) NOT NULL,
+                DESTINATARIO_NOME VARCHAR2(100) NOT NULL,
+                DESTINATARIO_TELEFONE VARCHAR2(20) NOT NULL,
+                DATA_ENTREGA DATE NOT NULL,
+                DATA_COLETA DATE NOT NULL,
+                VEICULO VARCHAR2(10) NOT NULL,
+                STATUS VARCHAR2(20) NOT NULL,
+                FORMA_PAGAMENTO VARCHAR2(20) NOT NULL,
+                PAGAMENTO NUMBER NOT NULL,
+                PRECO NUMBER NOT NULL,
+                ID_PESSOA NUMBER NOT NULL,
+                ID_ENTREGADOR NUMBER NOT NULL,
+                CONSTRAINT CODIGO_PEDIDO PRIMARY KEY (CODIGO_PEDIDO)
+);
+
+
+ALTER TABLE ENTREGADOR ADD CONSTRAINT VEICULO_ENTREGADOR_FK
+FOREIGN KEY (ID_VEICULO)
+REFERENCES VEICULO (ID_VEICULO)
+NOT DEFERRABLE;
+
+ALTER TABLE PEDIDO ADD CONSTRAINT PESSOA_PEDIDO_FK
+FOREIGN KEY (ID_PESSOA)
+REFERENCES PESSOA (ID_PESSOA)
+NOT DEFERRABLE;
+
+ALTER TABLE PESSOA_JURIDICA ADD CONSTRAINT PESSOA_PESSOA_JURIDICA_FK
+FOREIGN KEY (ID_PESSOA)
+REFERENCES PESSOA (ID_PESSOA)
+NOT DEFERRABLE;
+
+ALTER TABLE PESSOA_FISICA ADD CONSTRAINT PESSOA_PESSOA_FISICA_FK
+FOREIGN KEY (ID_PESSOA)
+REFERENCES PESSOA (ID_PESSOA)
+NOT DEFERRABLE;
+
+ALTER TABLE ENDERECO ADD CONSTRAINT PESSOA_ENDERECO_FK
+FOREIGN KEY (ID_PESSOA)
+REFERENCES PESSOA (ID_PESSOA)
+NOT DEFERRABLE;
+
+ALTER TABLE ENTREGADOR ADD CONSTRAINT PESSOA_ENTREGADOR_FK
+FOREIGN KEY (ID_PESSOA)
+REFERENCES PESSOA (ID_PESSOA)
+NOT DEFERRABLE;
+
+ALTER TABLE PEDIDO ADD CONSTRAINT ENTREGADOR_PEDIDO_FK
+FOREIGN KEY (ID_ENTREGADOR)
+REFERENCES ENTREGADOR (ID_ENTREGADOR)
+NOT DEFERRABLE;
