@@ -3,16 +3,40 @@
 INSERT INTO PESSOA (ID_PESSOA, TELEFONE, EMAIL, NOME)
             VALUES (1, '44 90000-0000', 'danielbastos@email.com', 'Daniel Bastos');
 INSERT INTO PESSOA (ID_PESSOA, TELEFONE, EMAIL, NOME)
-            VALUES (2, '	44 90000-0000', 'dionesantos@email.com', 'Dione Santos');
+            VALUES (2, '44 90000-0000', 'dionesantos@email.com', 'Dione Santos');
 INSERT INTO PESSOA (ID_PESSOA, TELEFONE, EMAIL, NOME)
-            VALUES (3, '	44 90000-0000', 'guilhermekochepki@email.com', 'Guilherme Kochepki');
+            VALUES (3, '44 90000-0000', 'guilhermekochepki@email.com', 'Guilherme Kochepki');
 INSERT INTO PESSOA (ID_PESSOA, TELEFONE, EMAIL, NOME)
-            VALUES (4, '	44 90000-0000', 'igorpollotto@email.com', 'Igor Pollotto');
+            VALUES (4, '44 90000-0000', 'igorpollotto@email.com', 'Igor Pollotto');
 INSERT INTO PESSOA (ID_PESSOA, TELEFONE, EMAIL, NOME)
             VALUES (5, '44 3000-0000', 'unicesumar@unicesumar.com', 'Unicesumar Entregas');
+            
+INSERT INTO PESSOA_FISICA (ID_PFISICA, CPF, ID_PESSOA) 
+                    VALUES (1, '00100200304', 1);
+INSERT INTO PESSOA_FISICA (ID_PFISICA, CPF, ID_PESSOA) 
+                    VALUES (2, '00100200304', 2);
+INSERT INTO PESSOA_FISICA (ID_PFISICA, CPF, ID_PESSOA) 
+                    VALUES (3, '00100200304', 3);
+INSERT INTO PESSOA_FISICA (ID_PFISICA, CPF, ID_PESSOA) 
+                    VALUES (4, '00100200304', 4);
+INSERT INTO PESSOA_JURIDICA (ID_PJURIDICA, CNPJ, ID_PESSOA) 
+                    VALUES (1, '00100200304', 5);
+
 
 SELECT * FROM PESSOA P INNER JOIN PESSOA_FISICA PF ON PF.ID_PESSOA = P.ID_PESSOA;
 SELECT * FROM PESSOA P INNER JOIN PESSOA_JURIDICA PJ ON PJ.ID_PESSOA = P.ID_PESSOA;
+
+                    
+SELECT 
+    P.ID_PESSOA, P.TELEFONE,  P.EMAIL, P.NOME,
+    CASE WHEN PF.ID_PFISICA     IS NULL THEN 'Não é pessoa física'      ELSE TO_CHAR(PF.ID_PFISICA)     END AS ID_PFISICA,
+    CASE WHEN PF.CPF            IS NULL THEN 'Nâo tem CPF'              ELSE TO_CHAR(PF.CPF)            END AS CPF,
+    CASE WHEN PJ.ID_PJURIDICA   IS NULL THEN 'Nâo é pessoa jurídica'    ELSE TO_CHAR (PJ.ID_PJURIDICA)  END AS ID_PJURIDICA,
+    CASE WHEN PJ.CNPJ           IS NULL THEN 'Nâo tem CNPJ'             ELSE TO_CHAR (PJ.CNPJ)          END AS CNPJ
+FROM PESSOA P
+    LEFT JOIN PESSOA_FISICA PF ON PF.ID_PESSOA = P.ID_PESSOA 
+    LEFT JOIN PESSOA_JURIDICA PJ ON PJ.ID_PESSOA = P.ID_PESSOA
+ORDER BY P.ID_PESSOA;
 
 SELECT * FROM PESSOA ORDER BY ID_PESSOA;
 
