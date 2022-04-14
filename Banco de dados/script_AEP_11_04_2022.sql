@@ -51,6 +51,27 @@ INSERT INTO ENTREGADOR (ID_ENTREGADOR, CONTA_BANCARIA, ID_PESSOA, ID_VEICULO)
 SELECT * FROM ENTREGADOR E INNER JOIN VEICULO V ON V.ID_VEICULO = E.ID_VEICULO INNER JOIN PESSOA P ON P.ID_PESSOA = E.ID_PESSOA;
 
 
+----------------------------------------------------------------------------------------------------
+-- CRIANDO PEDIDO
+
+INSERT INTO PEDIDO (CODIGO_PEDIDO, DECLARACAO_CONTEUDO, DESTINATARIO_NOME, DESTINATARIO_TELEFONE, DATA_ENTREGA, DATA_COLETA,
+                    VEICULO, STATUS, FORMA_PAGAMENTO, PAGAMENTO, PRECO, ID_PESSOA, ID_ENTREGADOR) 
+            VALUES  (1, '1 Caixa de sapato masculino', 'Rogério Santos', '44 8800-0077', TO_DATE('14-04-2022', 'DD-MM-YYYY'), TO_DATE('14-04-2022', 'DD-MM-YYYY'), 'MOTO',
+                    'PAGO', 'CARTÃO DE DÉBITO', 1, 10, 2, 1);
+
+SELECT 
+    PE.CODIGO_PEDIDO "Código do Pedido", 
+    PE.DECLARACAO_CONTEUDO "Declaração de conteúdo",
+    PE.DESTINATARIO_NOME "Nome destinatário",
+    PE.DESTINATARIO_TELEFONE "Telefone destinatário",
+    PE.DATA_COLETA "Data da coleta",
+    PE.DATA_ENTREGA "Data da entrega",
+    PE.VEICULO "Veículo",
+    PE.STATUS "Status",
+    PE.FORMA_PAGAMENTO "Forma pagamento",
+    CASE WHEN PE.PAGAMENTO = 1 THEN 'Pagamento recebido' ELSE 'Pagamento pendente' END AS "Pagamento",
+    PE.PRECO "Preço" FROM PEDIDO PE;
+
 CREATE TABLE VEICULO (
                 ID_VEICULO NUMBER NOT NULL,
                 PLACA VARCHAR2(10) NOT NULL,
