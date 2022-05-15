@@ -1,0 +1,21 @@
+Create OR REPLACE PROCEDURE ConsultaPedidosCliente(Nome in varchar)
+IS 
+BEGIN
+declare buscar varchar(20);
+buscar := '%' + Nome + '%';
+SELECT
+    ped.codigo_pedido as Codigo,
+    ped.declaracao_conteudo as Descrição,
+    ped.preco as Preço,
+    pes.nome as Cliente,
+    pes.telefone as Contato,
+	pesEnt.nome as Entregador,
+    vec.modelo as Veiculo
+FROM pedido as ped
+LEFT JOIN pessoa as pes on ped.id_pessoa = pes.id_pessoa
+LEFT JOIN entregador as ent on ent.id_entregador = ped.id_entregador
+LEFT JOIN veiculo as vec on vec.id_veiculo = ent.id_veiculo
+LEFT JOIN pessoa as pesEnt on pesEnt.id_pessoa = ent.id_pessoa
+WHERE
+    pes.nome LIKE buscar;
+END;
