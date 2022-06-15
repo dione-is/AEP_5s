@@ -1,0 +1,46 @@
+{
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject"
+  },
+  "dependencies": {
+    "expo": "~44.0.0",
+    "expo-status-bar": "~1.2.0",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-native": "0.64.3",
+    "react-native-web": "0.17.1",
+    "axios": "*",
+    "exponent": "*",
+    "lottie-ios": "3.2.3",
+    "prop-types": "15.7.2",
+    "expo-constants": "~13.0.2",
+    "rn-credit-card": "*",
+    "react-hook-form": "*",
+    "expo-app-loading": "~1.3.0",
+    "react-native-svg": "12.1.1",
+    "react-native-maps": "0.29.4",
+    "@expo/vector-icons": "^12.0.0",
+    "react-credit-cards": "*",
+    "react-native-paper": "4.9.2",
+    "lottie-react-native": "5.0.1",
+    "react-native-swiper": "*",
+    "react-native-screens": "~3.10.1",
+    "react-native-mask-text": "*",
+    "@react-navigation/native": "*",
+    "react-native-credit-card": "*",
+    "react-native-select-dropdown": "*",
+    "@expo-google-fonts/roboto-mono": "*",
+    "@react-navigation/native-stack": "*",
+    "react-native-credit-card-input": "*",
+    "react-native-safe-area-context": "3.3.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9"
+  },
+  "private": true
+}
